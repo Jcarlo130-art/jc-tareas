@@ -800,13 +800,7 @@ export default function App() {
   const [showRight,setShowRight]=useState(true);
   const [width,setWidth]=useState(window.innerWidth);
 
-  useEffect(()=>{
-  (async()=>{
-    try{const r=await getDoc(doc(db,"jc","tasks"));if(r.exists())setTasks(r.data().value||[]);}catch{}
-    try{const r=await getDoc(doc(db,"jc","blocks"));if(r.exists())setBlocks(r.data().value||DEFAULT_BLOCKS);}catch{}
-    try{const r=await getDoc(doc(db,"jc","materias"));if(r.exists())setMaterias(r.data().value||DEFAULT_MATERIAS);}catch{}
-  })();
-},[]);
+
   useEffect(()=>{const h=()=>setWidth(window.innerWidth);window.addEventListener("resize",h);return()=>window.removeEventListener("resize",h);},[]);
 useEffect(()=>{LS.set("jc_tasks_v6",tasks);setDoc(doc(db,"jc","tasks"),{value:tasks}).catch(()=>{});},[tasks]);
 useEffect(()=>{LS.set("jc_blocks_v6",blocks);setDoc(doc(db,"jc","blocks"),{value:blocks}).catch(()=>{});},[blocks]);
