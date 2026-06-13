@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import { db } from "./firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -809,11 +808,18 @@ export default function App() {
   })();
 },[]);
   useEffect(()=>{const h=()=>setWidth(window.innerWidth);window.addEventListener("resize",h);return()=>window.removeEventListener("resize",h);},[]);
-  useEffect(()=>{LS.set("jc_tasks_v6",tasks);setDoc(doc(db,"jc","tasks"),{value:tasks}).catch(()=>{});},[tasks]);
-  useEffect(()=>{LS.set("jc_blocks_v6",blocks);setDoc(doc(db,"jc","blocks"),{value:blocks}).catch(()=>{});},[blocks]);
-  useEffect(()=>{LS.set("jc_materias_v4",materias);setDoc(doc(db,"jc","materias"),{value:materias}).catch(()=>{});},[materias]);
+useEffect(()=>{LS.set("jc_tasks_v6",tasks);setDoc(doc(db,"jc","tasks"),{value:tasks}).catch(()=>{});},[tasks]);
+useEffect(()=>{LS.set("jc_blocks_v6",blocks);setDoc(doc(db,"jc","blocks"),{value:blocks}).catch(()=>{});},[blocks]);
+useEffect(()=>{LS.set("jc_materias_v4",materias);setDoc(doc(db,"jc","materias"),{value:materias}).catch(()=>{});},[materias]);
   useEffect(()=>LS.set("jc_bg",bg),[bg]);
   useEffect(()=>LS.set("jc_theme",theme),[theme]);
+  useEffect(()=>{
+  (async()=>{
+    try{const r=await getDoc(doc(db,"jc","tasks"));if(r.exists()&&r.data().value?.length)setTasks(r.data().value);}catch{}
+    try{const r=await getDoc(doc(db,"jc","blocks"));if(r.exists()&&r.data().value?.length)setBlocks(r.data().value);}catch{}
+    try{const r=await getDoc(doc(db,"jc","materias"));if(r.exists()&&r.data().value?.length)setMaterias(r.data().value);}catch{}
+  })();
+},[]);
   useEffect(()=>requestNotifPermission(),[]);
 
   const isMobile=width<640;
