@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { db } from "./firebase";
+import { db } from "/src/firebase.js";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const LS = {
